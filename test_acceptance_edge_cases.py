@@ -20,11 +20,11 @@ def upload_image(client, img_data):
 # 1. Edge Case: Uploading a Large Image File
 def test_edge_case_large_image_upload(client):
     """
-    Test uploading a large image to see how the system handles large file sizes.
-    - Scenario: Simulates a file upload with a large image (e.g., 10 MB).
-    - Expected Behavior: System should handle the file and return a valid prediction response.
+    Test whether the application rejects oversized file uploads.
+    - Scenario: Simulates uploading a file larger than 5 MB.
+    - Expected Behavior: Application returns HTTP 413.
     """
-    large_img_data = BytesIO(b"large_image_data" * 10**6)  # Simulating a large image
+    large_img_data = BytesIO(b"large_image_data" * 10**6)
     large_img_data.name = "large_image.jpg"
 
     response = client.post(
@@ -33,8 +33,8 @@ def test_edge_case_large_image_upload(client):
         content_type="multipart/form-data"
     )
 
-    # Assert that the system can process large image files
-    assert b"Prediction" in response.data  # Adjust based on actual prediction content
+    # Verify that oversized uploads are rejected
+    assert response.status_code == 413
 
 # 2. Edge Case: Uploading an Image with Missing or Incorrect Metadata
 def test_edge_case_invalid_metadata(client):
