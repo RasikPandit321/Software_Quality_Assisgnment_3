@@ -7,6 +7,9 @@ from model import preprocess_img, predict_result
 # Instantiating flask app
 app = Flask(__name__)
 
+# Limit the maximum request size to 5 MB
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+
 
 # Home route
 @app.route("/")
