@@ -33,5 +33,5 @@ def predict_image_file():
 
 
 # Driver code
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     app.run(port=9000, debug=False)
