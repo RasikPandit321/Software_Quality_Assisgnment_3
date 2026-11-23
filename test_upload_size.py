@@ -3,14 +3,17 @@
 from io import BytesIO
 
 
-def test_oversized_file_upload(client):
+def test_oversized_file_upload(client, csrf_token):
     """Verify uploads larger than 5 MB are rejected."""
 
     large_file = BytesIO(b"A" * (6 * 1024 * 1024))
 
     response = client.post(
         "/prediction",
-        data={"file": (large_file, "large.jpg")},
+        data={
+            "csrf_token": csrf_token,
+            "file": (large_file, "large.jpg")
+        },
         content_type="multipart/form-data"
     )
 
