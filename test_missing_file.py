@@ -1,11 +1,12 @@
 """Test how the Flask application handles missing uploads."""
 
 
-def test_missing_file_upload(client):
+def test_missing_file_upload(client, csrf_token):
     """Verify that submitting without a file displays an error."""
+
     response = client.post(
         "/prediction",
-        data={},
+        data={"csrf_token": csrf_token},
         content_type="multipart/form-data"
     )
 
