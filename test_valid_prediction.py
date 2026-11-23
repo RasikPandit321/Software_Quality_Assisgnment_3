@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-def test_valid_prediction(client):
+def test_valid_prediction(client, csrf_token):
     """Verify that uploading a valid image returns a prediction."""
 
     image_path = next(Path("test_images/5").glob("*.jpeg"))
@@ -11,7 +11,10 @@ def test_valid_prediction(client):
     with image_path.open("rb") as image_file:
         response = client.post(
             "/prediction",
-            data={"file": (image_file, image_path.name)},
+            data={
+                "csrf_token": csrf_token,
+                "file": (image_file, image_path.name)
+            },
             content_type="multipart/form-data"
         )
 
