@@ -1,11 +1,19 @@
 """Flask application for hand-sign digit recognition."""
 
 # Importing required libs
+import os
 from flask import Flask, render_template, request
+from flask_wtf.csrf import CSRFProtect
 from model import preprocess_img, predict_result
 
 # Instantiating flask app
 app = Flask(__name__)
+
+# Configure a secret key for CSRF protection
+app.config["SECRET_KEY"] = os.environ["FLASK_SECRET_KEY"]
+
+# Enable CSRF protection
+csrf = CSRFProtect(app)
 
 # Limit the maximum request size to 5 MB
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
